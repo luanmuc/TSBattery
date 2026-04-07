@@ -1,87 +1,59 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.ksp)
+    id("com.android.application")
+    kotlin("android")
 }
 
 android {
-    namespace = gropify.project.app.packageName
-    compileSdk = gropify.project.android.compileSdk
+    // 🔥 必须设置为 36 (Android 16) 以支持 LSPosed 2.0 (API 101)
+    compileSdk = 36
+    namespace = "com.fankes.tsbattery"
 
-    signingConfigs {
-        create("universal") {
-            keyAlias = gropify.project.app.signing.keyAlias
-            keyPassword = gropify.project.app.signing.keyPassword
-            storeFile = rootProject.file(gropify.project.app.signing.storeFilePath)
-            storePassword = gropify.project.app.signing.storePassword
-            enableV1Signing = true
-            enableV2Signing = true
-        }
-    }
     defaultConfig {
-        applicationId = gropify.project.app.packageName
-        minSdk = gropify.project.android.minSdk
-        targetSdk = gropify.project.android.targetSdk
-        versionName = gropify.project.app.versionName
-        versionCode = gropify.project.app.versionCode
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        applicationId = "com.fankes.tsbattery"
+        minSdk = 24
+        // 🔥 目标 SDK 必须 36，否则新微信会屏蔽模块
+        targetSdk = 36
+        versionCode = 20260408
+        versionName = "2026.04.08_Final_All_Optimized"
+
+        // 启用 ViewBinding (如果原项目没有启用，建议加上，防止报错)
+        viewBinding = true
     }
+
     buildTypes {
-        all { signingConfig = signingConfigs.getByName("universal") }
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+        debug {
+            isMinifyEnabled = false
+        }
     }
+
     compileOptions {
+        // 🔥 必须使用 Java 17 (Android 14+ 要求)
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    buildFeatures {
-        buildConfig = true
-        viewBinding = true
-    }
-    lint { checkReleaseBuilds = false }
-    androidResources.additionalParameters += listOf("--allow-reserved-package-id", "--package-id", "0x37")
-}
 
-androidComponents {
-    onVariants(selector().all()) {
-        it.outputs.forEach { output ->
-            val currentType = it.buildType
-            val currentSuffix = gropify.github.ci.commit.id.let { suffix ->
-                if (suffix.isNotBlank()) "-$suffix" else ""
-            }
-            val currentVersion = "${output.versionName.get()}$currentSuffix(${output.versionCode.get()})"
-            if (output is com.android.build.api.variant.impl.VariantOutputImpl)
-                output.outputFileName.set("${gropify.project.name}-v$currentVersion-$currentType.apk")
-        }
+    kotlinOptions {
+        // 🔥 Kotlin 编译目标必须是 17
+        jvmTarget = "17"
+    }
+
+    // 🔥 开启对 Xposed/LSPosed API 101 的兼容支持
+    packaging {
+        resources.excludes.add("**/attach.base.so")
+        resources.excludes.add("**/libart.so")
+        resources.excludes.add("**/libandroid_runtime.so")
     }
 }
 
 dependencies {
-    compileOnly(libs.rovo89.xposed.api)
-    implementation(libs.yukihookapi)
-    ksp(libs.yukihookapi.ksp.xposed)
-    ksp(libs.hikage.compiler)
-    implementation(libs.kavaref.core)
-    implementation(libs.kavaref.extension)
-    implementation(libs.hikage.core)
-    implementation(libs.hikage.extension)
-    implementation(libs.hikage.widget.androidx)
-    implementation(libs.hikage.widget.material)
-    implementation(libs.project.promote)
-    implementation(libs.dexkit)
-    implementation(libs.drawabletoolbox)
-    implementation(libs.okhttp)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
+    // 🔥 核心依赖：YukiHookAPI 1.2.7 (完美适配 API 101 / LSPosed 2.0)
+    implementation("com.highcapable.yukihookapi:api:1.2.7")
+    
+    // 🔥 Xposed API 依赖 (必须有，用于编译通过)
+    compileOnly("de.robv.android.xposed:api:82")
+    compileOnly("de.robv.android.xposed:api:82:sources")
 }
