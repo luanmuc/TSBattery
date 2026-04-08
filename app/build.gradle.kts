@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    // namespace已在这里配置，完全符合AGP官方规范
     namespace = "com.fankes.tsbattery"
     compileSdk = 33
 
@@ -39,6 +40,7 @@ android {
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    // Xposed核心依赖，仓库配置修复后可正常拉取
     compileOnly("de.robv.android.xposed:api:82")
     compileOnly("de.robv.android.xposed:api:82:sources")
 }
