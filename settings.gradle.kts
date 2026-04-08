@@ -3,6 +3,8 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        // 必须加JCenter，Xposed API 82仅在此仓库可用
+        jcenter()
     }
 }
 
@@ -11,6 +13,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // 必须加JCenter，Xposed API 82仅在此仓库可用
+        jcenter()
     }
 }
 
