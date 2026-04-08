@@ -8,13 +8,10 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class TSApplication : IXposedHookLoadPackage {
 
-    // 原仓库原生入口方法，结构、继承关系、方法名100%保留，无任何改动
+    // 原仓库原生入口方法，100%保留，无任何结构改动
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
 
-        // ==============================================
-        // 5项优化 纯增量插入 不改动原仓库任何代码
-        // 双层异常兜底，冲突自动静默跳过，100%以原仓库执行为准
-        // ==============================================
+        // ====================== 5项优化 纯增量插入 不改动原仓库 ======================
         try {
             val classLoader = lpparam.classLoader ?: return@try
 
@@ -42,7 +39,6 @@ class TSApplication : IXposedHookLoadPackage {
             // 优化3：微信全链路防检测（适配2026最新版）
             try {
                 if (lpparam.packageName == "com.tencent.mm") {
-                    // 屏蔽微信Xposed专用检测类
                     val wechatCheckerClass = classLoader.loadClass("com.tencent.mm.util.XposedChecker")
                     wechatCheckerClass.declaredMethods.forEach { method ->
                         if (method.returnType == Boolean::class.java) {
@@ -56,7 +52,6 @@ class TSApplication : IXposedHookLoadPackage {
                             )
                         }
                     }
-                    // 屏蔽微信通用安全检测类
                     val securityUtilsClass = classLoader.loadClass("com.tencent.common.util.SecurityUtils")
                     securityUtilsClass.declaredMethods.forEach { method ->
                         val methodName = method.name
@@ -93,13 +88,10 @@ class TSApplication : IXposedHookLoadPackage {
                 }
             } catch (_: Throwable) {}
 
-            // 优化5：全局异常兜底，保证原仓库逻辑绝对优先执行
-            // 所有优化逻辑异常都会被捕获，不会影响原仓库的任何执行流程
+            // 优化5：全局异常兜底，原仓库逻辑绝对优先执行
         } catch (_: Throwable) {}
 
-        // ==============================================
-        // 原仓库原生核心Hook代码 一行未动 位置未改 100%保留
-        // ==============================================
+        // ====================== 原仓库核心代码 完全不动 ======================
         HookManager.init(lpparam)
     }
 }
