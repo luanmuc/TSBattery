@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorThemeBackground">#FF2D2D2D</color>
-    <color name="colorTextDark">#FFCFCFCF</color>
-    <color name="colorTextGray">#FFD3D3D3</color>
+    <!-- 夜间模式专属颜色，补全编译必需属性，与日间主题风格对齐 -->
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryVariant">#1565C0</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#FF9800</color>
+    <color name="colorSecondaryVariant">#E65100</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#1565C0</color>
+    <color name="colorAccent">#FF9800</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>
