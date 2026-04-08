@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 夜间模式基础主题颜色 -->
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#1565C0</color>
     <color name="colorAccent">#FF9800</color>
+    <color name="colorPrimaryAccent">#FF9800</color>
+    <!-- 夜间模式Material规范必需颜色 -->
+    <color name="colorPrimaryVariant">#1565C0</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#FF9800</color>
+    <color name="colorSecondaryVariant">#E65100</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorSurface">#121212</color>
+    <color name="colorOnSurface">#FFFFFFFF</color>
+    <color name="colorBackground">#121212</color>
+    <color name="colorOnBackground">#FFFFFFFF</color>
+    <color name="colorError">#CF6679</color>
+    <color name="colorOnError">#FF000000</color>
+    <!-- 基础黑白 -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
