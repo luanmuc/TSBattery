@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 基础主题颜色 -->
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#FF9800</color>
+    <color name="colorPrimaryAccent">#FF9800</color>
+    <!-- Material规范必需颜色 -->
+    <color name="colorPrimaryVariant">#1976D2</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#FF9800</color>
+    <color name="colorSecondaryVariant">#F57C00</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorOnSurface">#FF000000</color>
+    <color name="colorBackground">#F5F5F5</color>
+    <color name="colorOnBackground">#FF000000</color>
+    <color name="colorError">#B00020</color>
+    <color name="colorOnError">#FFFFFF</color>
+    <!-- 基础黑白 -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
