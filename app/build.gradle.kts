@@ -14,11 +14,6 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        // 关闭AAPT2严格校验，避免资源类报错中断构建
-        aaptOptions {
-            additionalParameters("--no-version-vectors", "--auto-add-overlay")
-            failOnMissingConfigEntry = false
-        }
     }
 
     buildTypes {
@@ -44,7 +39,6 @@ android {
         jvmTarget = "1.8"
     }
 
-    // 100%正确的英文关键字，彻底修正语法错误
     packaging {
         resources {
             excludes += listOf(
@@ -57,11 +51,9 @@ android {
 }
 
 dependencies {
-    // 官方稳定依赖，阿里云仓库100%可拉取
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.material:material:1.12.0")
-    // Xposed核心依赖
     compileOnly("de.robv.android.xposed:api:82")
     compileOnly("de.robv.android.xposed:api:82:sources")
 }
