@@ -12,8 +12,8 @@ class TSApplication : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
 
         // ==============================================
-        // 你要的5项优化 纯增量插入 不改动原仓库任何代码
-        // 所有代码双层异常兜底，编译零错误，冲突自动静默跳过
+        // 5项优化 纯增量插入 不改动原仓库任何代码
+        // 双层异常兜底，冲突自动静默跳过，100%以原仓库执行为准
         // ==============================================
         try {
             val classLoader = lpparam.classLoader ?: return@try
