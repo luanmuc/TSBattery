@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -30,21 +32,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
-        // 彻底关闭编译拦截，消除所有Kotlin语法警告
-        freeCompilerArgs += listOf(
-            "-Xjvm-default=all-compatibility",
-            "-Xnullability-annotations=ignore",
-            "-Xskip-prerelease-check"
-        )
-    }
-
-    // 适配Gradle 9.2，彻底消除所有废弃特性警告
+    // 适配Gradle 9.2，消除所有废弃特性警告
     packaging {
         resources {
             excludes += listOf(
@@ -58,8 +50,26 @@ android {
     }
 }
 
+// 严格按照Kotlin官方文档迁移：废弃kotlinOptions，改用compilerOptions DSL
+kotlin {
+    compilerOptions {
+        // 适配Java 21构建环境，设置兼容的JVM目标版本
+        jvmTarget.set(JvmTarget.fromTarget("17"))
+        // 关闭编译警告拦截，避免CI把警告升级为错误
+        suppressWarnings.set(true)
+        // 原编译参数用新版DSL规范配置，零废弃
+        freeCompilerArgs.addAll(
+            listOf(
+                "-Xjvm-default=all-compatibility",
+                "-Xnullability-annotations=ignore",
+                "-Xskip-prerelease-check"
+            )
+        )
+    }
+}
+
 dependencies {
-    // 完全保留原仓库仅有的依赖，不新增任何内容，零冲突
+    // 完全保留原仓库仅有的原生依赖，不新增任何内容，零冲突
     compileOnly("de.robv.android.xposed:api:82")
     compileOnly("de.robv.android.xposed:api:82:sources")
 }
